@@ -10,6 +10,7 @@ import {
   Legend,
   Title,
 } from "chart.js";
+import { exportToCSV, exportToPDF } from "../utils/exportUtils";
 
 ChartJS.register(
   BarElement,
@@ -53,14 +54,17 @@ function RegulationDensityChart({ data }) {
           "#9966ff",
           "#ff9f40",
         ],
+        borderColor: "white",
+        borderWidth: 2,
       },
     ],
   };
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: { position: "top" },
+      legend: { position: "bottom" },
       title: {
         display: true,
         text: "Regulation Density by Agency",
@@ -84,16 +88,27 @@ function RegulationDensityChart({ data }) {
   };
 
   return (
-    <div style={{ maxWidth: "800px", margin: "auto" }}>
-      <h4 style={{ textAlign: "center", marginBottom: "1rem" }}>
-        Regulation Density Chart (Bar)
-      </h4>
-      <Bar data={barChartData} options={options} />
+    <div style={{ width: "100%", maxWidth: "900px", margin: "auto", marginBottom: "3rem" }}>
+      <h2>Regulation Density Per Agency</h2>
 
-      <h4 style={{ textAlign: "center", margin: "2rem 0 1rem" }}>
-        Regulation Density Chart (Pie)
-      </h4>
-      <Pie data={pieChartData} />
+      <h4>Regulation Density Chart (Bar)</h4>
+      <div style={{ height: "400px" }}>
+        <Bar data={barChartData} options={options} />
+      </div>
+
+      <h4 style={{ marginTop: "2rem" }}>Regulation Density Chart (Pie)</h4>
+      <div style={{ height: "400px" }}>
+        <Pie data={pieChartData} options={options} />
+      </div>
+
+      <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
+        <button onClick={() => exportToCSV(data, "regulation_density.csv")}>
+          📥 Export as CSV
+        </button>
+        <button onClick={() => exportToPDF(data, "regulation_density.pdf", "Regulation Density Data")}>
+          📄 Export as PDF
+        </button>
+      </div>
     </div>
   );
 }
