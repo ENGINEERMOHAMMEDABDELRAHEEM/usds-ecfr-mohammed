@@ -16,7 +16,7 @@ function App() {
   const [viewMode, setViewMode] = useState("charts");
 
   const { darkMode } = useTheme();
-  const backendURL = "https://usds-ecfr-backend.onrender.com";
+  const backendURL = "https://usds-ecfr-mohammed-backend.onrender.com";
 
   useEffect(() => {
     fetch(`${backendURL}/api/word_count`)
